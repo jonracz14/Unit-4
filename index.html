@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- pyscript stuff -->
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+<body>
+    <py-env>
+        - sympy
+    </py-env>
+    
+    <py-script>
+        import sympy as sp
+
+        def rational_function_analysis():
+            # Ask user for the numerator and denominator
+            numerator_expr = input("Enter the numerator polynomial (in terms of x): ")
+            denominator_expr = input("Enter the denominator polynomial (in terms of x): ")
+        
+            # Convert input strings to sympy expressions
+            x = sp.symbols('x')
+            numerator = sp.sympify(numerator_expr)
+            denominator = sp.sympify(denominator_expr)
+        
+            # Compute domain
+            domain = sp.solveset(denominator, x, domain=sp.Reals)
+            print("Domain:", domain)
+        
+            # Compute y-intercept
+            y_intercept = numerator.subs(x, 0) / denominator.subs(x, 0)
+            print("Y-intercept:", y_intercept)
+        
+            # Compute x-intercepts
+            x_intercepts = sp.solve(numerator, x)
+            print("X-intercepts:", x_intercepts)
+        
+            # Compute vertical asymptotes
+            vertical_asymptotes = sp.solve(denominator, x)
+            print("Vertical Asymptotes:", vertical_asymptotes)
+        
+            # Compute horizontal asymptotes
+            horizontal_asymptotes = sp.limit(numerator / denominator, x, sp.oo)
+            if horizontal_asymptotes in (sp.oo, -sp.oo):
+                print("Horizontal Asymptote: y =", horizontal_asymptotes)
+            else:
+                print("Horizontal Asymptote: y =", sp.simplify(horizontal_asymptotes))
+        
+        points = rational_function_analysis()
+        print("Points for plotting:", points)
+        
+        print("Remember to check using the factoring app and go from there on every equation.")
+    </py-script>
+</body>
+</html>
